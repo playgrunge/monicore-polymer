@@ -18,7 +18,7 @@
       html,body {
         height: 100%;
         margin: 0;
-        background-color: #E5E5E5;
+        background-color: lightgray;
       }
       core-header-panel {
         height: 100%;
@@ -26,8 +26,15 @@
         -webkit-overflow-scrolling: touch; 
       }
       core-toolbar {
-        background: #03a9f4;
+        background: #01868C;
         color: white;
+      }
+
+      paper-tab::shadow #ink{
+        color: #2C7073;
+      }
+      paper-tabs::shadow #selectionBar {
+        background-color: #04B7BF;
       }
       #tabs {
         width: 100%;
@@ -38,6 +45,7 @@
         user-select: none;
       text-transform: uppercase;
       }
+
       .container {
         width: 80%;
         margin: 50px auto;
@@ -55,6 +63,8 @@
         <link rel="import" href="bower_components/paper-elements/paper-elements.html">
         <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
         <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+        <link rel="import" href="bower_components/paper-toast/paper-toast.html">
+        <link rel="import" href="bower_components/paper-fab/paper-fab.html">
         <link rel="import" href="elements/list.html">
         <link rel="import" href="elements/greeting.html">
         <link rel="import" href="elements/scoreboard.html">
@@ -72,13 +82,15 @@
           <div id="welcome" class="content hero-unit" layout vertical center>
                 <polymer-greeting></polymer-greeting>
                 <p>You now have</p>
-                <paper-checkbox></paper-checkbox>
+                <paper-checkbox style="margin:20px;"></paper-checkbox>
+                <paper-fab mini icon="favorite" onclick="toastFromButton();"></paper-fab>
                 <polymer-list></polymer-list>
           </div>
           <div id="hockey" class="content">
                 <polymer-scoreboard></polymer-scoreboard>
           </div>
         </div>
+        <paper-toast id="toast" text="Your page has been loaded."></paper-toast>
       </core-header-panel>
       <script>
         var tabs = document.querySelector('paper-tabs');
@@ -93,8 +105,11 @@
           document.querySelector('#'+show).hidden=false;
         });
         document.addEventListener('WebComponentsReady', function() {
-            
+            document.querySelector('#toast').show();
         });
+        function toastFromButton(){
+          document.querySelector('#toast').show();
+        }
       </script>
     </body>
 </html>
