@@ -14,27 +14,86 @@
         <!-- build:css styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild-->
+        <style>
+      html,body {
+        height: 100%;
+        margin: 0;
+        background-color: #E5E5E5;
+      }
+      core-header-panel {
+        height: 100%;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch; 
+      }
+      core-toolbar {
+        background: #03a9f4;
+        color: white;
+      }
+      #tabs {
+        width: 100%;
+        margin: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      text-transform: uppercase;
+      }
+      .container {
+        width: 80%;
+        margin: 50px auto;
+      }
+      @media (min-width: 481px) {
+        #tabs {
+          width: 200px;
+        }
+      }
+      </style>
 
         <!-- Place your HTML imports here -->
         <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="import" href="bower_components/core-header-panel/core-header-panel.html">
+        <link rel="import" href="bower_components/paper-elements/paper-elements.html">
+        <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+        <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
         <link rel="import" href="elements/list.html">
         <link rel="import" href="elements/greeting.html">
         <link rel="import" href="elements/scoreboard.html">
     </head>
     <body>
+      <core-header-panel>
+        <core-toolbar>
+              <paper-tabs id="tabs" selected="welcome" self-end>
+                <paper-tab name="welcome">Welcome</paper-tab>
+                <paper-tab name="hockey">Hockey</paper-tab>
+              </paper-tabs>
 
-
-        <div class="hero-unit">
-          <polymer-greeting></polymer-greeting>
-          <p>You now have</p>
-          <polymer-list></polymer-list>
-          <polymer-scoreboard></polymer-scoreboard>
+        </core-toolbar>
+        <div class="container">
+          <div id="welcome" class="content hero-unit" layout vertical center>
+                <polymer-greeting></polymer-greeting>
+                <p>You now have</p>
+                <paper-checkbox></paper-checkbox>
+                <polymer-list></polymer-list>
+          </div>
+          <div id="hockey" class="content">
+                <polymer-scoreboard></polymer-scoreboard>
+          </div>
         </div>
-
-
+      </core-header-panel>
       <script>
+        var tabs = document.querySelector('paper-tabs');
+        var show = tabs.selected;
+
+        tabs.addEventListener('core-select', function() {
+          show = tabs.selected;
+          contents = document.querySelectorAll('.content');
+          for (i = 0; i < contents.length; ++i) {
+            contents[i].hidden=true;
+          }
+          document.querySelector('#'+show).hidden=false;
+        });
         document.addEventListener('WebComponentsReady', function() {
-            // Perform some behaviour
+            
         });
       </script>
     </body>
