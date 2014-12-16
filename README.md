@@ -18,10 +18,12 @@ Clone the git repo — `git clone
 ```
 # Install our Grunt dependencies
 $ cd monicore-polymer
-$ npm install && bower install
+$ sudo npm install
+$ bower install
 
 # Edit and the browser live reloads
 $ grunt server
+http://192.171.0.120:9000/
 
 # Build your project, creating an optimized build.html
 $ grunt build
