@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test websocket</title>
+</head>
+<body>
+<div>Test by opening <a href="http://192.171.0.120:3001/wsSend">http://192.171.0.120:3001/wsSend</a> in a new tab</div>
+<div id="log"></div>
+
+<script type="text/javascript">
+if (window["WebSocket"]) {
+	var ws = new WebSocket("ws:/192.171.0.120:3001/websocket");
+
+	ws.onopen = function (event) 
+	{
+		WriteEvent("Open the websocket connection");
+  		console.log(event.data);
+	};
+
+	ws.onmessage = function (event) 
+	{
+		WriteEvent(event.data);
+  		console.log(event.data);
+	};
+
+	ws.onclose = function (event) {
+		WriteEvent("Connection close");
+  		console.log(event.data);
+	};
+
+	ws.onerror = function (event) 
+	{
+		WriteEvent("An error occurs.");
+  		console.log("An error occurs.");
+	};
+
+	function WriteEvent(message)
+	{
+		var currentdate = new Date(); 
+		var datetime = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds()+ " - ";
+
+		var formattedMessage = "<div>" + datetime + "<b>" + message + "</b>" + "</div>";
+		document.getElementById("log").innerHTML += formattedMessage;
+	}
+
+} else 
+{
+        console.log("Your browser does not support WebSockets.")
+};
+
+</script>
+</body>
+</html>

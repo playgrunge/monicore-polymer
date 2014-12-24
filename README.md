@@ -1,33 +1,31 @@
+## monicore-polymer
+The client for monicore in polymer.
 
-## Polymer.js
+## Prerequisites
+* Set up [monicore-vagrant](https://github.com/playgrunge/monicore-vagrant)
+* Set up and start the golang server [monicore](https://github.com/playgrunge/monicore)
 
-<img src="http://i.imgur.com/J7bp9al.png" width="250px"/>
-
-
-## Introduction
-
-[Polymer](http://www.polymer-project.org/) is a library of polyfills and sugar which enable the use of Web Components in modern browsers. The project allows developers to build apps using the platform of tomorrow and inform the W3C of places where in-flight specifications can be further improved.
-
-## Quick start
-
-## With Git
-
-Clone the git repo — `git clone
-   https://github.com/playgrunge/monicore-polymer.git`
-
+## Installation
 ```
-# Install our Grunt dependencies
-$ cd monicore-polymer
-$ sudo npm install
-$ bower install
+git clone https://github.com/playgrunge/monicore-ember.git
+cd monicore-polymer
+sudo npm install
+bower install
+```
 
-# Edit and the browser live reloads
-$ grunt server
-http://192.171.0.120:9000/
+## Running / Development
+```
+grunt server
+```
+* http://192.171.0.120:9000/
+* http://192.171.0.120:9000/websocketClient.html
 
+
+## Other
+```
 # Build your project, creating an optimized build.html
-$ grunt build
+grunt build
 
 # Run any unit tests you might have written
-$ grunt test
+grunt test
 ```
