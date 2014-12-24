@@ -6,7 +6,7 @@ The client for monicore in polymer.
 * Set up and start the golang server [monicore](https://github.com/playgrunge/monicore)
 
 ## Installation
-```
+```Shell
 git clone https://github.com/playgrunge/monicore-ember.git
 cd monicore-polymer
 sudo npm install
@@ -14,15 +14,15 @@ bower install
 ```
 
 ## Running / Development
-```
+```Shell
 grunt server
 ```
-* http://192.171.0.120:9000/
-* http://192.171.0.120:9000/websocketClient.html
+* Polymer App : http://192.171.0.120:9000/
+* Websocket Test : http://192.171.0.120:9000/websocketClient.html
 
 
 ## Other
-```
+```Shell
 # Build your project, creating an optimized build.html
 grunt build
 
