@@ -123,7 +123,6 @@
 					var data = event.data;
 					if(this.json || this.jsonReceive) {
 						data = JSON.parse(data);
-						this.response = null;
 						this.response = data;
 					}
 					this.fire("message", { data: data });
