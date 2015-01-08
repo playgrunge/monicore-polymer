@@ -7,7 +7,7 @@ The client for monicore in polymer.
 
 ## Installation
 ```Shell
-git clone https://github.com/playgrunge/monicore-ember.git
+git clone https://github.com/playgrunge/monicore-polymer.git
 cd monicore-polymer
 sudo npm install
 bower install

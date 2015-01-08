@@ -8,6 +8,7 @@
 <link rel="import" href="list.html">
 <link rel="import" href="greeting.html">
 <link rel="import" href="scoreboard.html">
+<link rel="import" href="x-websocket.html">
 
 <polymer-element name="monicore-app">
   <template>
@@ -18,6 +19,7 @@
           <paper-tab name="hockey">Hockey</paper-tab>
         </paper-tabs>
       </core-toolbar>
+      <x-websocket url="ws://192.171.0.120:3001/websocket" jsonReceive response="{{websocketResponse}}"></x-websocket>
       <div class="container">
         <div id="welcome" class="content hero-unit" hidden?="{{show != 'welcome'}}" layout vertical center>
           <polymer-greeting></polymer-greeting>
@@ -27,7 +29,10 @@
           <polymer-list></polymer-list>
         </div>
         <div id="hockey" class="content" hidden?="{{show != 'hockey'}}">
-          <polymer-scoreboard></polymer-scoreboard>
+          <polymer-scoreboard listData="{{hockeyResponse}}"></polymer-scoreboard>
+        </div>
+        <div id="hockey" class="content" hidden?="{{show != 'hockey'}}">
+          <polymer-log logData="websocketResponse"></polymer-log>
         </div>
       </div>
       <paper-toast id="toast" text="Your page has been loaded."></paper-toast>
@@ -46,12 +51,22 @@
         }
       },
       ready: function() {
+        this.websocketResponse = null;
+        this.hockeyResponse = null;
         this.show = 'welcome';
         document.querySelector('monicore-app::shadow #toast').show();
       },
-      responseChanged: function(oldValue) {
-        console.log(this.response);
-      }
+      websocketResponseChanged: function() {
+        switch(this.websocketResponse.type) {
+          case "hockey":
+            this.hockeyResponse = this.websocketResponse.data;
+            break;
+          case "twitter":
+            break;
+          default:
+            break;
+        }
+      }  
     });
   </script>
 </polymer-element>

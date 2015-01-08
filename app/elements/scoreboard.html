@@ -1,14 +1,11 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
 <link rel="import" href="../bower_components/polymer-filters/polymer-filters.html">
 <link rel="import" href="scorecard.html">
 
-<polymer-element name="polymer-scoreboard" horizontal justified-left layout wrap>
+<polymer-element name="polymer-scoreboard" attributes="listData" horizontal justified-left layout wrap>
   <template>
-    <core-ajax auto url="//192.171.0.120:3001/api/hockey" 
-      handleAs="json" response="{{ response }}"></core-ajax>
-    <template repeat="{{ response.scores | orderBy('event') }}">
-      <polymer-scorecard 
+    <template repeat="{{ listData.scores | orderBy('event') }}">
+      <polymer-scorecard
           league="{{event}}"
           period="{{period}}"
           home="{{homeTeam}}"
@@ -21,10 +18,8 @@
     </template>
   </template>
   <script>
-    Polymer('polymer-scoreboard', {
-      responseChanged: function(oldValue) {
-            console.log(this.response);
-        }
+    Polymer('polymer-scoreboard',
+    {
     });
   </script>
 </polymer-element>
