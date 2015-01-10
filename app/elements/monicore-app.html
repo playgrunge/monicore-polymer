@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
 <link rel="import" href="list.html">
 <link rel="import" href="greeting.html">
 <link rel="import" href="scoreboard.html">
@@ -20,6 +21,7 @@
         </paper-tabs>
       </core-toolbar>
       <x-websocket url="ws://192.171.0.120:3001/websocket" json response="{{websocketResponse}}"></x-websocket>
+      <core-ajax url="//192.171.0.120:3001/wsSendJSON"></core-ajax>
       <div class="container">
         <div id="welcome" class="content hero-unit" hidden?="{{show != 'welcome'}}" layout vertical center>
           <polymer-greeting></polymer-greeting>
@@ -29,7 +31,7 @@
           <polymer-list></polymer-list>
         </div>
         <div id="hockey" class="content" hidden?="{{show != 'hockey'}}">
-          <polymer-scoreboard listData="{{hockeyResponse}}"></polymer-scoreboard>
+          <polymer-scoreboard listData="{{hockeyResponse}}" event="NHL"></polymer-scoreboard>
         </div>
       </div>
       <paper-toast id="toast" text="Your page has been loaded."></paper-toast>
@@ -41,9 +43,11 @@
   <script>
     Polymer({
       toastFromButton: function(e, detail, sender) {
+        var ajax = document.querySelector('monicore-app::shadow core-ajax');
+        ajax.go();
         var toast = document.querySelector('monicore-app::shadow #toast');
         if(!toast.opened){
-          toast.attributes["text"].nodeValue = "Your fab has been clicked.";
+          toast.attributes["text"].nodeValue = "Hockey tab have been loaded!";
           toast.show();
         }
       },
@@ -57,6 +61,10 @@
         this.websocketResponse = null;
         this.hockeyResponse = null;
         this.show = 'welcome';
+        var tabs = document.querySelector('monicore-app::shadow paper-tabs');
+        var hockey = document.querySelector('monicore-app::shadow polymer-scoreboard');
+
+        tabs.addEventListener('core-select', this.tabsEventListener);
         document.querySelector('monicore-app::shadow #toast').show();
       },
       websocketResponseChanged: function() {
@@ -68,6 +76,14 @@
             break;
           default:
             break;
+        }
+      },
+      tabsEventListener: function(){
+        var hockey = document.querySelector('monicore-app::shadow polymer-scoreboard');
+        if(this.selected == 'hockey'){
+          hockey.event = 'NHL';
+        }else{
+          hockey.event = 'all';
         }
       }  
     });

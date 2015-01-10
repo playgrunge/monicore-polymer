@@ -2,9 +2,9 @@
 <link rel="import" href="../bower_components/polymer-filters/polymer-filters.html">
 <link rel="import" href="scorecard.html">
 
-<polymer-element name="polymer-scoreboard" attributes="listData" horizontal justified-left layout wrap>
+<polymer-element name="polymer-scoreboard" attributes="listData, event" horizontal justified-left layout wrap>
   <template>
-    <template repeat="{{ listData.scores | orderBy('event') }}">
+    <template repeat="{{ listData.scores | filterBy('event',event) | orderBy(['event','homeTeam']) }}">
       <polymer-scorecard
           league="{{event}}"
           period="{{period}}"
@@ -21,5 +21,21 @@
     Polymer('polymer-scoreboard',
     {
     });
+    PolymerExpressions.prototype.filterBy = function (array, columnToFilter, value) {
+        if (!Array.isArray(array)) {
+          return array;
+        }
+        if (!value || value === 'all') {
+            return array;
+        }
+        var filtered = [];
+        for (var i = 0; i < array.length; i++) {
+            var item = array[i];
+            if (item[columnToFilter] === value) {
+                filtered.push(item);
+            }
+        }
+        return filtered;
+    };
   </script>
 </polymer-element>
