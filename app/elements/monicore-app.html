@@ -19,7 +19,7 @@
           <paper-tab name="hockey">Hockey</paper-tab>
         </paper-tabs>
       </core-toolbar>
-      <x-websocket url="ws://192.171.0.120:3001/websocket" jsonReceive response="{{websocketResponse}}"></x-websocket>
+      <x-websocket url="ws://192.171.0.120:3001/websocket" json response="{{websocketResponse}}"></x-websocket>
       <div class="container">
         <div id="welcome" class="content hero-unit" hidden?="{{show != 'welcome'}}" layout vertical center>
           <polymer-greeting></polymer-greeting>
@@ -48,6 +48,12 @@
         }
       },
       ready: function() {
+        var listCurrentApi = ['hockey','twitter'];
+        var xwebsocket = this.shadowRoot.querySelector('x-websocket');
+        xwebsocket.addEventListener('open', function(e) {
+          xwebsocket.send(listCurrentApi);
+        });
+
         this.websocketResponse = null;
         this.hockeyResponse = null;
         this.show = 'welcome';

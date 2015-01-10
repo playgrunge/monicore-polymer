@@ -13,6 +13,8 @@ if (window["WebSocket"]) {
 
 	ws.onopen = function (event) 
 	{
+		var listCurrentApi = ['hockey','chat'];
+		ws.send(JSON.stringify(listCurrentApi));
 		WriteEvent("Open the websocket connection");
   		console.log(event.data);
 	};
