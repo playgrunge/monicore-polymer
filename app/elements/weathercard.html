@@ -1,0 +1,118 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+
+<polymer-element name="polymer-weathercard" attributes="">
+  <template>
+  	<core-ajax auto url="//192.171.0.120:3001/api/weather" handleAs="json" response="{{ response }}"></core-ajax>
+  	<section class="weathercard">
+  		<section>{{nowDate()}}</section>
+  		<section><span class="weather-icon icon{{response.weather[0].icon}}"></span>
+  			temperature{{convertDegrees(response.main.temp)}}{{degreesUnit}}
+  		</section>
+  		<section>
+  			Humidity:{{response.main.humidity}}%
+  			Wind:{{convertSpeed(response.wind.speed)}}{{speedUnit}}
+  		</section>
+  	</section>
+  	<style type="text/css">
+  		section.weathercard{
+            width:300px;
+            height:180px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            border:0px solid;
+            background-color:white;
+            box-shadow: 0 4px 15px 0 rgba(0,0,0,0.3);
+            -moz-box-shadow: 0 4px 15px 0 rgba(0,0,0,0.3);
+            -webkit-box-shadow: 0 4px 15px 0 rgba(0,0,0,0.3);
+            margin-bottom:20px;
+            margin-right:20px;
+            margin-top: 5px;
+        }
+        section.weathercard section span.weather-icon.icon01d{
+        	background-position: -272px -27px;
+    	}
+    	section.weathercard section span.weather-icon.icon01n{
+        	background-position: -272px -104px;
+    	}
+    	section.weathercard section span.weather-icon.icon02d{
+        	background-position: -349px -27px;
+    	}
+    	section.weathercard section span.weather-icon.icon02n{
+        	background-position: -426px -104px;
+    	}
+    	section.weathercard section span.weather-icon.icon03d{
+        	background-position: -119px -27px;
+    	}
+    	section.weathercard section span.weather-icon.icon03n{
+        	background-position: -119px -27px;
+    	}
+    	section.weathercard section span.weather-icon.icon04d{
+        	background-position: -119px -27px;
+    	}
+    	section.weathercard section span.weather-icon.icon04n{
+        	background-position: -119px -27px;
+    	}
+    	section.weathercard section span.weather-icon.icon09d{
+        	background-position: -272px -259px;
+    	}
+    	section.weathercard section span.weather-icon.icon09n{
+        	background-position: -272px -259px;
+    	}
+    	section.weathercard section span.weather-icon.icon10d{
+        	background-position: -426px -27px;
+    	}
+    	section.weathercard section span.weather-icon.icon10n{
+        	background-position: -426px -27px;
+    	}
+    	section.weathercard section span.weather-icon.icon11d{
+        	background-position: -349px -180px;
+    	}
+    	section.weathercard section span.weather-icon.icon11n{
+        	background-position: -349px -180px;
+    	}
+    	section.weathercard section span.weather-icon.icon13d{
+        	background-position: -349px -105px;
+    	}
+    	section.weathercard section span.weather-icon.icon13n{
+        	background-position: -349px -105px;
+    	}
+    	section.weathercard section span.weather-icon.icon50d{
+        	background-position: -119px -105px;
+    	}
+    	section.weathercard section span.weather-icon.icon50n{
+        	background-position: -119px -105px;
+    	}
+        section.weathercard section span.weather-icon{
+			background:url('http://premiumwebfreebies.com/wp-content/uploads/2013/12/24_weather_icons-display.jpg') no-repeat;
+        	float:left;height:50px;width:50px;position:relative;top:0px;left:0px;display:inline-block;
+        }
+        
+  	</style>
+  </template>
+  <script>
+    Polymer('polymer-weathercard', {
+    	nowDate: function(){
+    		return moment().format('dddd, MMMM Do, h:mm a');
+    	},
+    	degreesUnit: '°C',
+    	convertDegrees: function(kDegrees){
+    		var d = '';
+    		if(kDegrees){
+    			d = Math.round(kDegrees - 273.15);
+    		}
+    		return d;
+    	},
+    	speedUnit: 'km/h',
+    	convertSpeed: function(mps){
+    		var kmh = '';
+    		if(mps){
+    			kmh = Math.round(mps * 3.6);
+    		}
+    		return kmh;
+    	}
+    });
+  </script>
+  <script src="../bower_components/moment/min/moment.min.js"></script>
+</polymer-element>

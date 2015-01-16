@@ -6,9 +6,8 @@
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/core-ajax/core-ajax.html">
-<link rel="import" href="list.html">
-<link rel="import" href="greeting.html">
 <link rel="import" href="scoreboard.html">
+<link rel="import" href="weathercard.html">
 <link rel="import" href="x-websocket.html">
 
 <polymer-element name="monicore-app">
@@ -24,11 +23,12 @@
       <core-ajax url="//192.171.0.120:3001/wsSendJSON"></core-ajax>
       <div class="container">
         <div id="welcome" class="content hero-unit" hidden?="{{show != 'welcome'}}" layout vertical center>
-          <polymer-greeting></polymer-greeting>
-          <p>{{show}}, You now have</p>
+          <h3>Welcome</h3>
           <paper-checkbox style="margin:20px;"></paper-checkbox>
           <paper-fab mini icon="favorite" on-click="{{toastFromButton}}"></paper-fab>
-          <polymer-list></polymer-list>
+        </div>
+        <div id="weather" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
+          <polymer-weathercard></polymer-weathercard>
         </div>
         <div id="hockey" class="content" hidden?="{{show != 'hockey'}}">
           <polymer-scoreboard listData="{{hockeyResponse}}" event="NHL"></polymer-scoreboard>
