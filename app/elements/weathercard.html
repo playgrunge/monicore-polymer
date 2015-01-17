@@ -1,34 +1,37 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="../bower_components/polymer-filters/polymer-filters.html">
 <link rel="import" href="../bower_components/core-ajax/core-ajax.html">
 
 <polymer-element name="polymer-weathercard" attributes="">
   <template>
-  	<core-ajax auto url="//192.171.0.120:3001/api/weather" handleAs="json" response="{{ response }}"></core-ajax>
-  	<core-ajax auto url="//192.171.0.120:3001/api/weather?t=forecast" handleAs="json" response="{{ forecast }}"></core-ajax>
+  	<core-ajax auto url="//192.171.0.120:3001/api/weather" handleAs="json" response="{{ response }}" progress="{{progress1}}"></core-ajax>
+  	<core-ajax auto url="//192.171.0.120:3001/api/weather?t=forecast" handleAs="json" response="{{ forecast }}" progress="{{progress2}}"></core-ajax>
   	<section class="weathercard" style="padding:10px;">
-  		<section>
-  			<section style="font-size: large;">{{nowDate()}}<div>{{nowTime()}}</div></section>
-  			<section style="font-size: x-large;">{{response.weather[0].main}}</section>
-  		</section>
-  		<section style="font-size: 40px;width: 60%;float: left;">
-  			<span class="weather-icon icon{{response.weather[0].icon}}"></span>
-  			{{convertDegrees(response.main.temp)}}{{degreesUnit}}
-  		</section>
-  		<section style="width: 40%;float: left;">
-  			<section>Humidity: {{response.main.humidity}}%</section>
-  			<section>Wind: {{convertSpeed(response.wind.speed)}}{{speedUnit}}</section>
-  		</section>
-  		<section style="float: left;">
-  			<template repeat="{{ l in forecast.list | orderBy(['dt']) }}">
-  				<section>{{l.dt_txt}} {{convertDegrees(l.main.temp)}}</section>
-  				
-  			</template>
+  		<paper-progress max="{{progress1.total+progress2.total}}" value="{{progress1.loaded+progress2.loaded}}" hidden?="{{progress1.loaded+progress2.loaded>=progress1.total+progress2.total}}"></paper-progress>
+  		<section hidden?="{{progress1.loaded+progress2.loaded<progress1.total+progress2.total}}">
+	  		<section>
+	  			<section style="font-size: large;">{{nowDate()}}<div>{{nowTime()}}</div></section>
+	  			<section style="font-size: x-large;">{{response.weather[0].main}}</section>
+	  		</section>
+	  		<section style="font-size: 40px;width: 60%;float: left;">
+	  			<span class="weather-icon icon{{response.weather[0].icon}}"></span>
+	  			{{convertDegrees(response.main.temp)}}{{degreesUnit}}
+	  		</section>
+	  		<section style="width: 40%;float: left;">
+	  			<section>Humidity: {{response.main.humidity}}%</section>
+	  			<section>Wind: {{convertSpeed(response.wind.speed)}}{{speedUnit}}</section>
+	  		</section>
+	  		<section style="float: left;clear:both;">
+	  			<canvas id="myChart" height="200"></canvas>
+	  			<template repeat="{{ l in forecast.list | orderBy(['dt']) | addToChart() }}">
+	  				{{l.dt_txt}} {{convertDegrees(l.main.temp)}}
+	  			</template>
+	  		</section>
   		</section>
   	</section>
   	<style type="text/css">
   		section.weathercard{
-            width:300px;
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
             border-radius: 5px;
@@ -126,8 +129,46 @@
     			kmh = Math.round(mps * 3.6);
     		}
     		return kmh;
+    	},
+    	chartLabels: new Array(),
+    	chartData: new Array(),
+    	addToChart: function(array){
+	    	if (!Array.isArray(array)) {
+	          return array;
+	        }
+	        var filtered = [];
+	        for (var i = 0; i < array.length; i++) {
+	            this.chartLabels.push('');
+	            this.chartData.push(this.convertDegrees(array[i]['main']['temp']));
+	        }
+	        this.buildChart();
+	        return filtered;
+    	},
+    	buildChart: function(){
+    		var data = {
+			    labels: this.chartLabels,
+			    datasets: [
+			        {
+			            fillColor: "gray",
+			            strokeColor: "gray",
+			            highlightFill: "darkgray",
+            			highlightStroke: "darkgray",
+			            data: this.chartData
+			        }
+			    ]
+			};
+			var ctx = this.$.myChart.getContext("2d");
+			var myNewChart = new Chart(ctx).Bar(data, {
+			    //showScale: false,
+			    barShowStroke : false,
+			    barValueSpacing : 0,
+			    barDatasetSpacing : 0,
+			    scaleBeginAtZero : false,
+    			scaleShowGridLines : false
+			});
     	}
     });
   </script>
   <script src="../bower_components/moment/min/moment.min.js"></script>
+  <script src="../bower_components/chartjs/Chart.min.js"></script>
 </polymer-element>
