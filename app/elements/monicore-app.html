@@ -31,7 +31,7 @@
           <polymer-weathercard></polymer-weathercard>
         </div>
         <div id="hockey" class="content" hidden?="{{show != 'hockey'}}">
-          <polymer-scoreboard listData="{{hockeyResponse}}" event="NHL"></polymer-scoreboard>
+          <polymer-scoreboard listData="{{hockeyResponse}}" event="all"></polymer-scoreboard>
         </div>
       </div>
       <paper-toast id="toast" text="Your page has been loaded."></paper-toast>
@@ -83,7 +83,7 @@
         if(this.selected == 'hockey'){
           hockey.event = 'NHL';
         }else{
-          hockey.event = 'all';
+          hockey.event = 'NHL';
         }
       }  
     });
