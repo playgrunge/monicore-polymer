@@ -4,17 +4,19 @@
 	<title>Test websocket</title>
 </head>
 <body>
+<div><input id="sendMessage" size="35" value="hockey,weather"></div>
+<div><button id="sendButon">Send</button><button id="clearButon">Clear all logs</button></div>
 <div>Test by opening <a href="http://192.171.0.120:3001/wsSend">http://192.171.0.120:3001/wsSend</a> in a new tab</div>
 <div id="log"></div>
 
 <script type="text/javascript">
 if (window["WebSocket"]) {
 	var ws = new WebSocket("ws:/192.171.0.120:3001/websocket");
+	document.getElementById("sendButon").onclick = doSend;
+	document.getElementById("clearButon").onclick = doClear;
 
 	ws.onopen = function (event) 
 	{
-		var listCurrentApi = ['hockey','chat'];
-		ws.send(JSON.stringify(listCurrentApi));
 		WriteEvent("Open the websocket connection");
   		console.log(event.data);
 	};
@@ -35,7 +37,19 @@ if (window["WebSocket"]) {
 		WriteEvent("An error occurs.");
   		console.log("An error occurs.");
 	};
+	function doSend()
+	{
+		var listCurrentApi = document.getElementById("sendMessage").value.split(',');
+		ws.send(JSON.stringify(listCurrentApi));
+	}
+	function doClear()
+	{
+		var myNode = document.getElementById("log");
+		while (myNode.firstChild) {
+		    myNode.removeChild(myNode.firstChild);
+		}
 
+	}
 	function WriteEvent(message)
 	{
 		var currentdate = new Date(); 
