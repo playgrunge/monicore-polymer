@@ -18,17 +18,16 @@
           <paper-tab name="welcome">Welcome</paper-tab>
           <paper-tab name="hockey">Hockey</paper-tab>
         </paper-tabs>
+        <paper-fab mini icon="favorite" on-click="{{toastFromButton}}"></paper-fab>
       </core-toolbar>
       <x-websocket url="ws://192.171.0.120:3001/websocket" json response="{{websocketResponse}}"></x-websocket>
       <core-ajax url="//192.171.0.120:3001/wsSendJSON"></core-ajax>
       <div class="container">
-        <div id="welcome" class="content hero-unit" hidden?="{{show != 'welcome'}}" layout vertical center>
-          <h3>Welcome</h3>
-          <paper-checkbox style="margin:20px;"></paper-checkbox>
-          <paper-fab mini icon="favorite" on-click="{{toastFromButton}}"></paper-fab>
-        </div>
         <div id="weather" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
           <polymer-weathercard></polymer-weathercard>
+        </div>
+        <div id="welcome" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
+          <paper-checkbox style="margin:20px;"></paper-checkbox>
         </div>
         <div id="hockey" class="content" hidden?="{{show != 'hockey'}}">
           <polymer-scoreboard listData="{{hockeyResponse}}" event="all"></polymer-scoreboard>
