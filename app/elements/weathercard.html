@@ -3,7 +3,7 @@
 <link rel="import" href="../bower_components/polymer-filters/polymer-filters.html">
 <link rel="import" href="../bower_components/core-ajax/core-ajax.html">
 
-<polymer-element name="polymer-weathercard" attributes="">
+<polymer-element name="polymer-weathercard" attributes="degreesUnit">
   <template>
   	<core-ajax auto url="//192.171.0.120:3001/api/weather" handleAs="json" response="{{ response }}" progress="{{progress1}}"></core-ajax>
   	<core-ajax auto url="//192.171.0.120:3001/api/weather?t=forecast" handleAs="json" response="{{ forecast }}" progress="{{progress2}}"></core-ajax>
@@ -118,8 +118,10 @@
     	degreesUnit: '°C',
     	convertDegrees: function(kDegrees){
     		var d = '';
-    		if(kDegrees){
+    		if(kDegrees && this.degreesUnit === '°C'){
     			d = Math.round(kDegrees - 273.15);
+    		}else if(kDegrees){
+    			d = Math.round((kDegrees - 273.15) * 1.8000 + 32.00);
     		}
     		return d;
     	},

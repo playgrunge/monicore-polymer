@@ -5,6 +5,8 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/core-ajax/core-ajax.html">
 <link rel="import" href="scoreboard.html">
 <link rel="import" href="weathercard.html">
@@ -14,17 +16,26 @@
   <template>
     <core-header-panel>
       <core-toolbar>
-        <paper-tabs id="tabs" selected="{{show}}" self-end>
-          <paper-tab name="welcome">Welcome</paper-tab>
-          <paper-tab name="hockey">Hockey</paper-tab>
-        </paper-tabs>
+        <section flex>
+          <paper-tabs id="tabs" selected="{{show}}" self-end>
+            <paper-tab name="welcome">Welcome</paper-tab>
+            <paper-tab name="hockey">Hockey</paper-tab>
+          </paper-tabs>
+        </section>
         <paper-fab mini icon="favorite" on-click="{{toastFromButton}}"></paper-fab>
+        <paper-icon-button icon="refresh"></paper-icon-button>
+        <paper-icon-button icon="settings" on-tap="{{toggleSettings}}"></paper-icon-button>
+        <paper-dialog id="app-settings" transition="core-transition-top" heading="Settings">
+          <section center horizontal layout>
+            <div flex>Tempeture unit ({{tempetureUnit}})</div><paper-toggle-button id="tempeture-unit" on-change="{{changeTempUnit}}"></paper-toggle-button>
+          </section>
+        </paper-dialog>
       </core-toolbar>
       <x-websocket url="ws://192.171.0.120:3001/websocket" json response="{{websocketResponse}}"></x-websocket>
       <core-ajax url="//192.171.0.120:3001/wsSendJSON"></core-ajax>
       <div class="container">
         <div id="weather" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
-          <polymer-weathercard></polymer-weathercard>
+          <polymer-weathercard degreesUnit="{{tempetureUnit}}"></polymer-weathercard>
         </div>
         <div id="welcome" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
           <paper-checkbox style="margin:20px;"></paper-checkbox>
@@ -41,15 +52,6 @@
   </template>
   <script>
     Polymer({
-      toastFromButton: function(e, detail, sender) {
-        var ajax = document.querySelector('monicore-app::shadow core-ajax');
-        ajax.go();
-        var toast = document.querySelector('monicore-app::shadow #toast');
-        if(!toast.opened){
-          toast.attributes["text"].nodeValue = "Hockey tab have been loaded!";
-          toast.show();
-        }
-      },
       ready: function() {
         var listCurrentApi = ['hockey','twitter'];
         var xwebsocket = this.shadowRoot.querySelector('x-websocket');
@@ -65,6 +67,19 @@
 
         tabs.addEventListener('core-select', this.tabsEventListener);
         document.querySelector('monicore-app::shadow #toast').show();
+      },
+      toastFromButton: function(e, detail, sender) {
+        var ajax = document.querySelector('monicore-app::shadow core-ajax');
+        ajax.go();
+        var toast = document.querySelector('monicore-app::shadow #toast');
+        if(!toast.opened){
+          toast.attributes["text"].nodeValue = "Hockey tab have been loaded!";
+          toast.show();
+        }
+      },
+      toggleSettings: function(){
+        var settings = document.querySelector('monicore-app::shadow paper-dialog#app-settings');
+        settings.toggle();
       },
       websocketResponseChanged: function() {
         switch(this.websocketResponse.type) {
@@ -84,7 +99,15 @@
         }else{
           hockey.event = 'NHL';
         }
-      }  
+      },
+      changeTempUnit: function(){
+        if(this.tempetureUnit==="°C"){
+          this.tempetureUnit="°F"
+        }else{
+          this.tempetureUnit="°C"
+        }
+      },
+      tempetureUnit: "°C"  
     });
   </script>
 </polymer-element>
