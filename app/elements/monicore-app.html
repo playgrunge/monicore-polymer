@@ -10,6 +10,7 @@
 <link rel="import" href="../bower_components/core-ajax/core-ajax.html">
 <link rel="import" href="scoreboard.html">
 <link rel="import" href="weathercard.html">
+<link rel="import" href="hydrocard.html">
 <link rel="import" href="x-websocket.html">
 
 <polymer-element name="monicore-app">
@@ -26,8 +27,11 @@
         <paper-icon-button icon="refresh"></paper-icon-button>
         <paper-icon-button icon="settings" on-tap="{{toggleSettings}}"></paper-icon-button>
         <paper-dialog id="app-settings" transition="core-transition-top" heading="Settings">
-          <section center horizontal layout>
-            <div flex>Tempeture unit ({{tempetureUnit}})</div><paper-toggle-button id="tempeture-unit" on-change="{{changeTempUnit}}"></paper-toggle-button>
+          <section style="margin-bottom:10px;" center horizontal layout>
+            <div flex>Temperature unit ({{temperatureUnit}})</div><paper-toggle-button id="tempersture-unit" on-change="{{changeTempUnit}}"></paper-toggle-button>
+          </section>
+          <section style="margin-bottom:10px;" center horizontal layout>
+            <div flex>Speed unit ({{speedUnit}})</div><paper-toggle-button id="speed-unit" on-change="{{changeSpeedUnit}}"></paper-toggle-button>
           </section>
         </paper-dialog>
       </core-toolbar>
@@ -35,10 +39,11 @@
       <core-ajax url="//192.171.0.120:3001/wsSendJSON"></core-ajax>
       <div class="container">
         <div id="weather" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
-          <polymer-weathercard degreesUnit="{{tempetureUnit}}"></polymer-weathercard>
+          <polymer-weathercard degreesUnit="{{temperatureUnit}}" speedUnit="{{speedUnit}}"></polymer-weathercard>
         </div>
         <div id="welcome" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
           <paper-checkbox style="margin:20px;"></paper-checkbox>
+          <polymer-hydrocard></polymer-hydrocard>
         </div>
         <div id="hockey" class="content" hidden?="{{show != 'hockey'}}">
           <polymer-scoreboard listData="{{hockeyResponse}}" event="all"></polymer-scoreboard>
@@ -101,13 +106,21 @@
         }
       },
       changeTempUnit: function(){
-        if(this.tempetureUnit==="°C"){
-          this.tempetureUnit="°F"
+        if(this.temperatureUnit==="°C"){
+          this.temperatureUnit="°F"
         }else{
-          this.tempetureUnit="°C"
+          this.temperatureUnit="°C"
         }
       },
-      tempetureUnit: "°C"  
+      temperatureUnit: "°C",
+      changeSpeedUnit: function(){
+        if(this.speedUnit==="km/h"){
+          this.speedUnit="mph"
+        }else{
+          this.speedUnit="km/h"
+        }
+      },
+      speedUnit: "km/h"  
     });
   </script>
 </polymer-element>

@@ -3,7 +3,7 @@
 <link rel="import" href="../bower_components/polymer-filters/polymer-filters.html">
 <link rel="import" href="../bower_components/core-ajax/core-ajax.html">
 
-<polymer-element name="polymer-weathercard" attributes="degreesUnit">
+<polymer-element name="polymer-weathercard" attributes="degreesUnit speedUnit">
   <template>
   	<core-ajax auto url="//192.171.0.120:3001/api/weather" handleAs="json" response="{{ response }}" progress="{{progress1}}"></core-ajax>
   	<core-ajax auto url="//192.171.0.120:3001/api/weather?t=forecast" handleAs="json" response="{{ forecast }}" progress="{{progress2}}"></core-ajax>
@@ -127,11 +127,13 @@
     	},
     	speedUnit: 'km/h',
     	convertSpeed: function(mps){
-    		var kmh = '';
-    		if(mps){
-    			kmh = Math.round(mps * 3.6);
+    		var s = '';
+    		if(mps && this.speedUnit === 'km/h'){
+    			s = Math.round(mps * 3.6);
+    		}else if(mps){
+    			s = Math.round(mps * 2.2369362920544);
     		}
-    		return kmh;
+    		return s;
     	},
     	chartLabels: new Array(),
     	chartData: new Array(),

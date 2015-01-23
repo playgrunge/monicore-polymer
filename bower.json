@@ -8,7 +8,9 @@
     "paper-elements": "Polymer/paper-elements#~0.5.2",
     "polymer-filters": "addyosmani/polymer-filters#~0.1.0",
     "moment": "~2.9.0",
-    "chartjs": "~1.0.1"
+    "chartjs": "~1.0.1",
+    "numeral": "~1.5.3",
+    "mathjs": "~1.2.0"
   },
   "devDependencies": {},
   "resolutions": {
