@@ -1,0 +1,128 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-header-panel/core-header-panel.html">
+<link rel="import" href="../bower_components/paper-elements/paper-elements.html">
+<link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="scoreboard.html">
+<link rel="import" href="weathercard.html">
+<link rel="import" href="hydrocard.html">
+<link rel="import" href="twittercard.html">
+<link rel="import" href="x-websocket.html">
+
+<polymer-element name="monicore-app">
+  <template>
+    <core-header-panel>
+      <core-toolbar>
+        <section flex>
+          <paper-tabs id="tabs" selected="{{show}}" self-end>
+            <paper-tab name="welcome">Welcome</paper-tab>
+            <paper-tab name="hockey">Hockey</paper-tab>
+          </paper-tabs>
+        </section>
+        <paper-fab mini icon="favorite" on-click="{{toastFromButton}}"></paper-fab>
+        <paper-icon-button icon="refresh"></paper-icon-button>
+        <paper-icon-button icon="settings" on-tap="{{toggleSettings}}"></paper-icon-button>
+        <paper-dialog id="app-settings" transition="core-transition-top" heading="Settings">
+          <section style="margin-bottom:10px;" center horizontal layout>
+            <div flex>Temperature unit ({{temperatureUnit}})</div><paper-toggle-button id="tempersture-unit" on-change="{{changeTempUnit}}"></paper-toggle-button>
+          </section>
+          <section style="margin-bottom:10px;" center horizontal layout>
+            <div flex>Speed unit ({{speedUnit}})</div><paper-toggle-button id="speed-unit" on-change="{{changeSpeedUnit}}"></paper-toggle-button>
+          </section>
+        </paper-dialog>
+      </core-toolbar>
+      <x-websocket url="ws://192.171.0.120:3001/websocket" json response="{{websocketResponse}}"></x-websocket>
+      <core-ajax url="//192.171.0.120:3001/wsSendJSON"></core-ajax>
+      <div class="container">
+        <div id="weather" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
+          <polymer-weathercard degreesUnit="{{temperatureUnit}}" speedUnit="{{speedUnit}}"></polymer-weathercard>
+        </div>
+        <div id="welcome" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
+          <paper-checkbox style="margin:20px;"></paper-checkbox>
+          <polymer-hydrocard></polymer-hydrocard>
+          <polymer-twittercard listData="{{twitterResponse}}"></polymer-twittercard>
+        </div>
+        <div id="hockey" class="content" hidden?="{{show != 'hockey'}}">
+          <polymer-scoreboard listData="{{hockeyResponse}}" event="all"></polymer-scoreboard>
+        </div>
+      </div>
+      <paper-toast id="toast" text="Your page has been loaded."></paper-toast>
+    </core-header-panel>
+    <link rel="stylesheet" href="styles/main.css">
+  </template>
+  <script>
+    Polymer({
+      ready: function() {
+        var listCurrentApi = ['hockey','twitter'];
+        var xwebsocket = this.shadowRoot.querySelector('x-websocket');
+        xwebsocket.addEventListener('open', function(e) {
+          xwebsocket.send(listCurrentApi);
+        });
+
+        this.websocketResponse = null;
+        this.hockeyResponse = null;
+        this.twitterResponse = null;
+        this.show = 'welcome';
+        var tabs = document.querySelector('monicore-app::shadow paper-tabs');
+        var hockey = document.querySelector('monicore-app::shadow polymer-scoreboard');
+
+        tabs.addEventListener('core-select', this.tabsEventListener);
+        document.querySelector('monicore-app::shadow #toast').show();
+      },
+      toastFromButton: function(e, detail, sender) {
+        var ajax = document.querySelector('monicore-app::shadow core-ajax');
+        ajax.go();
+        var toast = document.querySelector('monicore-app::shadow #toast');
+        if(!toast.opened){
+          toast.attributes["text"].nodeValue = "Hockey tab have been loaded!";
+          toast.show();
+        }
+      },
+      toggleSettings: function(){
+        var settings = document.querySelector('monicore-app::shadow paper-dialog#app-settings');
+        settings.toggle();
+      },
+      websocketResponseChanged: function() {
+        switch(this.websocketResponse.type) {
+          case "hockey":
+            this.hockeyResponse = this.websocketResponse.data;
+            break;
+          case "twitter":
+            this.twitterResponse = this.websocketResponse.data;
+            break;
+          default:
+            break;
+        }
+      },
+      tabsEventListener: function(){
+        var hockey = document.querySelector('monicore-app::shadow polymer-scoreboard');
+        if(this.selected == 'hockey'){
+          hockey.event = 'NHL';
+        }else{
+          hockey.event = 'NHL';
+        }
+      },
+      changeTempUnit: function(){
+        if(this.temperatureUnit==="°C"){
+          this.temperatureUnit="°F"
+        }else{
+          this.temperatureUnit="°C"
+        }
+      },
+      temperatureUnit: "°C",
+      changeSpeedUnit: function(){
+        if(this.speedUnit==="km/h"){
+          this.speedUnit="mph"
+        }else{
+          this.speedUnit="km/h"
+        }
+      },
+      speedUnit: "km/h"  
+    });
+  </script>
+</polymer-element>

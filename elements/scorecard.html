@@ -1,0 +1,167 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<polymer-element name="polymer-scorecard" attributes="home away league homeScore awayScore period homeShort awayShort">
+  <template>
+    <section class="scorecard">
+        <section class="top {{league}}">
+            <span class="league">{{league}}</span>
+            <span class="period">{{period}}</span>
+        </section>
+        <section class="score">
+            <section class="team {{league}}-{{homeShort}}">
+                <span class="logo"></span>
+                <span class="fullname">{{home}}</span>
+                <span class="goals">{{homeScore}}</span>
+            </section>
+            <section class="team {{league}}-{{awayShort}}">
+                <span class="logo"></span>
+                <span class="fullname">{{away}}</span>
+                <span class="goals">{{awayScore}}</span>
+            </section>
+        </section>
+    </section>
+    <style type="text/css">
+        section.scorecard section.score section.team.NHL-ANA span.logo{
+            background-position:-02px -02px;
+        }
+        section.scorecard section.score section.team.NHL-BOS span.logo{
+            background-position:-36px -02px;
+        }
+        section.scorecard section.score section.team.NHL-BUF span.logo{
+            background-position:-70px -02px;
+        }
+        section.scorecard section.score section.team.NHL-CGY span.logo{
+            background-position:-104px -02px;
+        }
+        section.scorecard section.score section.team.NHL-CAR span.logo{
+            background-position:-139px -02px;
+        }
+
+        section.scorecard section.score section.team.NHL-CHI span.logo{
+            background-position:-02px -53px;
+        }
+        section.scorecard section.score section.team.NHL-CBJ span.logo{
+            background-position:-36px -53px;
+        }
+        section.scorecard section.score section.team.NHL-COL span.logo{
+            background-position:-70px -53px;
+        }
+        section.scorecard section.score section.team.NHL-DAL span.logo{
+            background-position:-104px -53px;
+        }
+        section.scorecard section.score section.team.NHL-DET span.logo{
+            background-position:-139px -53px;
+        }
+
+        section.scorecard section.score section.team.NHL-EDM span.logo{
+            background-position:-02px -104px;
+        }
+        section.scorecard section.score section.team.NHL-FLA span.logo{
+            background-position:-36px -104px;
+        }
+        section.scorecard section.score section.team.NHL-LAK span.logo{
+            background-position:-70px -104px;
+        }
+        section.scorecard section.score section.team.NHL-MIN span.logo{
+            background-position:-104px -104px;
+        }
+        section.scorecard section.score section.team.NHL-MTL span.logo{
+            background-position:-139px -104px;
+        }
+
+        section.scorecard section.score section.team.NHL-NSH span.logo{
+            background-position:-02px -156px;
+        }
+        section.scorecard section.score section.team.NHL-NJD span.logo{
+            background-position:-36px -156px;
+        }
+        section.scorecard section.score section.team.NHL-NYI span.logo{
+            background-position:-70px -156px;
+        }
+        section.scorecard section.score section.team.NHL-NYR span.logo{
+            background-position:-104px -155px;
+        }
+        section.scorecard section.score section.team.NHL-OTT span.logo{
+            background-position:-139px -156px;
+        }
+
+        section.scorecard section.score section.team.NHL-PHI span.logo{
+            background-position:-02px -206px;
+        }
+        section.scorecard section.score section.team.NHL-ARI span.logo{
+            background-position:-36px -206px;
+        }
+        section.scorecard section.score section.team.NHL-PIT span.logo{
+            background-position:-70px -206px;
+        }
+        section.scorecard section.score section.team.NHL-SJS span.logo{
+            background-position:-104px -206px;
+        }
+        section.scorecard section.score section.team.NHL-STL span.logo{
+            background-position:-139px -206px;
+        }
+
+        section.scorecard section.score section.team.NHL-TBL span.logo{
+            background-position:-02px -258px;
+        }
+        section.scorecard section.score section.team.NHL-TOR span.logo{
+            background-position:-36px -258px;
+        }
+        section.scorecard section.score section.team.NHL-VAN span.logo{
+            background-position:-70px -258px;
+        }
+        section.scorecard section.score section.team.NHL-WSH span.logo{
+            background-position:-104px -258px;
+        }
+        section.scorecard section.score section.team.NHL-WPG span.logo{
+            background-position:-139px -257px;
+        }
+
+        .NHL{
+            background:url('http://www.userlogos.org/files/logos/neoknight037/NHL.png') -113px -259px no-repeat;
+        }
+        section.scorecard{
+            width:300px;
+            height:180px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            border:0px solid;
+            background-color:white;
+            box-shadow: 0 4px 15px 0 rgba(0,0,0,0.3);
+            -moz-box-shadow: 0 4px 15px 0 rgba(0,0,0,0.3);
+            -webkit-box-shadow: 0 4px 15px 0 rgba(0,0,0,0.3);
+            margin-bottom:20px;
+            margin-right:20px;
+        }
+        section.scorecard section.top{
+            width:100%;
+            height:30px;
+            padding-top: 20px;
+            font-weight:bold;
+            border-top-left-radius: 5px;
+        }
+        section.scorecard section.top span.league{display:inline-block;width:150px;margin-left: 6px;}
+        section.scorecard section.top span.period{display:inline-block;width:130px;text-align:right;}
+        section.scorecard section.score{width:100%;background-color:white;}
+        section.scorecard section.score section.team{
+            width:100%;height:40px;padding-top: 10px;border-top:0px solid;background-color: white;box-shadow: inset 20px 0 80px -20px darkgray;-moz-box-shadow: inset 20px 0 80px -20px darkgray;-webkit-box-shadow: inset 20px 0 80px -20px darkgray;
+        }
+        section.scorecard section.score section.team span.logo{
+            background:url('http://media-cache-ec0.pinimg.com/736x/1f/ff/05/1fff05532a55d20f65c6b053cf1517fc.jpg') 100px 100px no-repeat;
+            background-size: 522%;
+            float:left;height:50px;width:33px;position:relative;top:-10px;left:0px;display:inline-block;
+        }
+        section.scorecard section.score section.team span.fullname{
+            display:inline-block;width:200px;margin-left: 6px;font-weight:bold;font-size: small;height:40px;line-height:20px;overflow:hidden;
+        }
+        section.scorecard section.score section.team span.goals{
+            display:inline-block;width:40px;text-align:right;vertical-align:top;font-weight:bold;
+        }
+    </style>
+  </template>
+  <script>
+    Polymer('polymer-scorecard', {
+    });
+  </script>
+</polymer-element>
