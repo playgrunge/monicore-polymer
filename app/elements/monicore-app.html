@@ -11,6 +11,7 @@
 <link rel="import" href="scoreboard.html">
 <link rel="import" href="weathercard.html">
 <link rel="import" href="hydrocard.html">
+<link rel="import" href="twittercard.html">
 <link rel="import" href="x-websocket.html">
 
 <polymer-element name="monicore-app">
@@ -44,6 +45,7 @@
         <div id="welcome" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
           <paper-checkbox style="margin:20px;"></paper-checkbox>
           <polymer-hydrocard></polymer-hydrocard>
+          <polymer-twittercard listData="{{twitterResponse}}"></polymer-twittercard>
         </div>
         <div id="hockey" class="content" hidden?="{{show != 'hockey'}}">
           <polymer-scoreboard listData="{{hockeyResponse}}" event="all"></polymer-scoreboard>
@@ -66,6 +68,7 @@
 
         this.websocketResponse = null;
         this.hockeyResponse = null;
+        this.twitterResponse = null;
         this.show = 'welcome';
         var tabs = document.querySelector('monicore-app::shadow paper-tabs');
         var hockey = document.querySelector('monicore-app::shadow polymer-scoreboard');
@@ -92,6 +95,7 @@
             this.hockeyResponse = this.websocketResponse.data;
             break;
           case "twitter":
+            this.twitterResponse = this.websocketResponse.data;
             break;
           default:
             break;
