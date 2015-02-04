@@ -1,21 +1,21 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<polymer-element name="polymer-scorecard" attributes="home away league homeScore awayScore period homeShort awayShort">
+<polymer-element name="polymer-scorecard" attributes="home away league homeScore awayScore period homeShort awayShort size">
   <template>
-    <section class="scorecard">
-        <section class="top {{league}}">
-            <span class="league">{{league}}</span>
+    <section class="scorecard {{size}}">
+        <section class="top {{league}}" layout horizontal>
+            <span class="league" layout flex>{{league}}</span>
             <span class="period">{{period}}</span>
         </section>
         <section class="score">
-            <section class="team {{league}}-{{homeShort}}">
+            <section class="team {{league}}-{{homeShort}}" layout horizontal>
                 <span class="logo"></span>
-                <span class="fullname">{{home}}</span>
+                <span class="fullname" layout flex>{{home}}</span>
                 <span class="goals">{{homeScore}}</span>
             </section>
-            <section class="team {{league}}-{{awayShort}}">
+            <section class="team {{league}}-{{awayShort}}" layout horizontal>
                 <span class="logo"></span>
-                <span class="fullname">{{away}}</span>
+                <span class="fullname" layout flex>{{away}}</span>
                 <span class="goals">{{awayScore}}</span>
             </section>
         </section>
@@ -121,7 +121,7 @@
             background:url('http://www.userlogos.org/files/logos/neoknight037/NHL.png') -113px -259px no-repeat;
         }
         section.scorecard{
-            width:300px;
+            width:520px;
             height:180px;
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
@@ -133,6 +133,10 @@
             -webkit-box-shadow: 0 4px 15px 0 rgba(0,0,0,0.3);
             margin-bottom:20px;
             margin-right:20px;
+            margin-top: 5px;
+        }
+        section.scorecard.small{
+            width:300px;
         }
         section.scorecard section.top{
             width:100%;
@@ -142,7 +146,7 @@
             border-top-left-radius: 5px;
         }
         section.scorecard section.top span.league{display:inline-block;width:150px;margin-left: 6px;}
-        section.scorecard section.top span.period{display:inline-block;width:130px;text-align:right;}
+        section.scorecard section.top span.period{display:inline-block;width:130px;text-align:right;margin-right: 10px;}
         section.scorecard section.score{width:100%;background-color:white;}
         section.scorecard section.score section.team{
             width:100%;height:40px;padding-top: 10px;border-top:0px solid;background-color: white;box-shadow: inset 20px 0 80px -20px darkgray;-moz-box-shadow: inset 20px 0 80px -20px darkgray;-webkit-box-shadow: inset 20px 0 80px -20px darkgray;
@@ -156,7 +160,7 @@
             display:inline-block;width:200px;margin-left: 6px;font-weight:bold;font-size: small;height:40px;line-height:20px;overflow:hidden;
         }
         section.scorecard section.score section.team span.goals{
-            display:inline-block;width:40px;text-align:right;vertical-align:top;font-weight:bold;
+            display:inline-block;width:40px;text-align:right;vertical-align:top;font-weight:bold;margin-right: 10px;
         }
     </style>
   </template>

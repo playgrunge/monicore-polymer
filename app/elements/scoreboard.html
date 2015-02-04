@@ -2,18 +2,19 @@
 <link rel="import" href="../bower_components/polymer-filters/polymer-filters.html">
 <link rel="import" href="scorecard.html">
 
-<polymer-element name="polymer-scoreboard" attributes="listData, event" horizontal justified-left layout wrap>
+<polymer-element name="polymer-scoreboard" attributes="listData, event, team, size" horizontal justified-left layout wrap>
   <template>
-    <template repeat="{{ listData.scores | filterBy('event',event) | orderBy(['event','homeTeam']) }}">
+    <template repeat="{{ l in listData.scores | filterBy('event',event) | filterBy(['shortHomeTeam','shortAwayTeam'],team) | orderBy(['event','homeTeam']) }}">
       <polymer-scorecard
-          league="{{event}}"
-          period="{{period}}"
-          home="{{homeTeam}}"
-          homeShort="{{shortHomeTeam}}"
-          homeScore="{{homeScore}}"
-          away="{{awayTeam}}"
-          awayShort="{{shortAwayTeam}}"
-          awayScore="{{awayScore}}"
+          league="{{l.event}}"
+          period="{{l.period}}"
+          home="{{l.homeTeam}}"
+          homeShort="{{l.shortHomeTeam}}"
+          homeScore="{{l.homeScore}}"
+          away="{{l.awayTeam}}"
+          awayShort="{{l.shortAwayTeam}}"
+          awayScore="{{l.awayScore}}"
+          size="{{size}}"
       ></polymer-scorecard>
     </template>
   </template>
@@ -25,14 +26,19 @@
         if (!Array.isArray(array)) {
           return array;
         }
+        if (!Array.isArray(columnToFilter)) {
+          columnToFilter = new Array(columnToFilter);
+        }
         if (!value || value === 'all') {
             return array;
         }
         var filtered = [];
         for (var i = 0; i < array.length; i++) {
             var item = array[i];
-            if (item[columnToFilter] === value) {
+            for(var j = 0; j < columnToFilter.length; j++){
+              if (item[columnToFilter[j]] === value) {
                 filtered.push(item);
+              }
             }
         }
         return filtered;

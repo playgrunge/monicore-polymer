@@ -139,7 +139,11 @@ module.exports = function (grunt) {
                         '.htaccess',
                         'elements/**',
                         'lib-elements/**',
-                        'images/{,*/}*.{webp,gif}'
+                        'images/{,*/}*.{webp,gif}',
+                        'robots.txt',
+                        'index.html',
+                        'bower_components/**',
+                        'styles/**'
                     ]
                 }]
             }
@@ -148,6 +152,12 @@ module.exports = function (grunt) {
             all: {
                 rjsConfig: '<%= yeoman.app %>/scripts/main.js'
             }
+        },
+        'gh-pages': {
+            options: {
+                base: 'dist'
+            },
+            src: ['**']
         }
     });
 

@@ -37,8 +37,8 @@ paper-tabs::shadow #selectionBar {
 }
 
 .container {
-    width: 80%;
-    margin: 50px auto;
+    width: 100%;
+    margin: 50px 10px;
 }
 
 @media (min-width: 481px) {

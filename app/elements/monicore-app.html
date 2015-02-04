@@ -39,16 +39,14 @@
       <x-websocket url="ws://192.171.0.120:3001/websocket" json response="{{websocketResponse}}"></x-websocket>
       <core-ajax url="//192.171.0.120:3001/wsSendJSON"></core-ajax>
       <div class="container">
-        <div id="weather" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
+        <div id="welcome" class="content" hidden?="{{show != 'welcome'}}" layout horizontal top wrap>
           <polymer-weathercard degreesUnit="{{temperatureUnit}}" speedUnit="{{speedUnit}}"></polymer-weathercard>
-        </div>
-        <div id="welcome" class="content" hidden?="{{show != 'welcome'}}" layout vertical center>
-          <paper-checkbox style="margin:20px;"></paper-checkbox>
           <polymer-hydrocard></polymer-hydrocard>
           <polymer-twittercard listData="{{twitterResponse}}"></polymer-twittercard>
+          <polymer-scoreboard listData="{{hockeyResponse}}" event="NHL" team="MTL"></polymer-scoreboard>
         </div>
         <div id="hockey" class="content" hidden?="{{show != 'hockey'}}">
-          <polymer-scoreboard listData="{{hockeyResponse}}" event="all"></polymer-scoreboard>
+          <polymer-scoreboard listData="{{hockeyResponse}}" event="NHL" size="small"></polymer-scoreboard>
         </div>
       </div>
       <paper-toast id="toast" text="Your page has been loaded."></paper-toast>
