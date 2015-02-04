@@ -1,11 +1,19 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 
 <polymer-element name="polymer-twittercard" attributes="listData">
 <template>
-	<section class="twittercard" style="padding:10px;">
+	<section class="twittercard" style="padding:10px; background-position-y: -24px;
+  background-position-x: -18px; background-image: url(https://metronet.no/wp-content/uploads/2014/08/twitter-logo-640x250.png);
+  background-repeat: no-repeat;
+  background-size: 59%;">
+  <section style="padding-top:40px;opacity: 0.5;
+  filter: alpha(opacity=50);
+  background-color: white;">
 		<template repeat="{{ listData.trends }}">
-			<div><a href="{{url}}" target="_blank">{{name}}</a></div>
+			<paper-item><a href="{{url}}" target="_blank" style="font: 'Helvetica Neue',Arial,Helvetica,'sans-serif';text-decoration:none;  font-weight: bold; color:black;">{{name}}</a></paper-item>
 		</template>
+		</section>
 	</section>
 	<style type="text/css">
 		section.twittercard{
